@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Vault — Cofre pessoal</title>
+<style>
+:root{--bg:#0b1220;--panel:#111c2e;--panel2:#17243a;--line:#26364f;--text:#eef4ff;--muted:#91a2bc;--accent:#69a7ff;--green:#42c99a;--red:#ff7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#1a2c49 0,transparent 34%),var(--bg);color:var(--text);font:15px Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:11px 15px;background:var(--accent);color:#071426;font-weight:700}button.secondary{background:#22334d;color:var(--text);border:1px solid var(--line)}button.danger{background:#4a2330;color:#ffdce2;border:1px solid #713344}button:disabled{opacity:.5;cursor:not-allowed}
+.wrap{max-width:1120px;margin:auto;padding:28px 20px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#75b5ff,#4777d6);display:grid;place-items:center;color:#071426;font-size:22px;font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.pill{font-size:12px;color:#9ee6cb;background:#15372f;padding:7px 10px;border-radius:30px}
+.panel{background:linear-gradient(180deg,#142139,#101a2b);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 18px 50px #0003}.center{max-width:470px;margin:9vh auto}.center h2{margin:0 0 8px;font-size:25px}.muted{color:var(--muted);line-height:1.55}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:#c6d3e7;font-weight:650}.field input,.field textarea,.search{width:100%;background:#0b1423;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:13px;outline:none}.field input:focus,.field textarea:focus,.search:focus{border-color:var(--accent)}.field textarea{min-height:76px;resize:vertical}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}.notice{font-size:12px;color:#f3d79a;background:#392f1b;border:1px solid #5d4a26;padding:12px;border-radius:12px;line-height:1.5;margin-top:16px}
+.toolbar{display:flex;gap:10px;align-items:center;margin:20px 0;flex-wrap:wrap}.toolbar .search{flex:1;min-width:180px}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#0d1829;border:1px solid var(--line);padding:10px 14px;border-radius:12px;color:var(--muted);font-size:12px}.stat strong{display:block;color:var(--text);font-size:18px;margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px}.entry{background:#111e31;border:1px solid var(--line);border-radius:16px;padding:17px;min-width:0}.entryhead{display:flex;align-items:center;gap:11px;margin-bottom:14px}.entryicon{width:38px;height:38px;border-radius:12px;background:#203552;display:grid;place-items:center;font-weight:800;color:#a9ceff}.entry h3{font-size:15px;margin:0}.entry small{color:var(--muted)}.detail{font-size:12px;color:var(--muted);margin:9px 0 4px}.value{display:flex;align-items:center;gap:8px;background:#0b1423;padding:9px 10px;border-radius:9px;min-width:0}.value span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;color:#e0e9f7;font-size:13px}.mini{background:#263b59;color:#dceaff;padding:6px 9px;border-radius:8px;font-size:11px}.actions{display:flex;gap:7px;margin-top:14px}.actions button{flex:1;padding:8px;font-size:12px}.empty{text-align:center;padding:50px 15px;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.modalback{position:fixed;inset:0;background:#050a12cc;display:grid;place-items:center;padding:18px;z-index:4}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#142139;border:1px solid var(--line);border-radius:18px;padding:22px}.modal h2{margin:0 0 15px}.foot{margin-top:25px;color:#72849e;font-size:11px;text-align:center}
+@media(max-width:600px){.wrap{padding:18px 13px 40px}.top{align-items:flex-start}.top .pill{display:none}.panel{padding:19px}.center{margin:5vh auto}.toolbar button{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><div class="logo">V</div><div><h1>Vault</h1><p>Seu cofre pessoal de acessos</p></div></div><span class="pill">● Cofre criptografado</span></header>
+
+<section id="setup" class="panel center hidden">
+<h2>Crie seu cofre</h2><p class="muted">Defina uma senha mestra forte. Ela será a chave para desbloquear seus dados.</p>
+<div class="field"><label for="master1">Senha mestra</label><input id="master1" type="password" autocomplete="new-password" placeholder="Use uma senha forte"></div>
+<div class="field"><label for="master2">Confirme a senha</label><input id="master2" type="password" autocomplete="new-password" placeholder="Digite novamente"></div>
+<button id="createBtn" style="width:100%">Criar cofre</button>
+<div class="notice">A senha mestra não pode ser recuperada. Se você esquecê-la, não será possível abrir o cofre. Guarde-a em local seguro.</div>
+</section>
+
+<section id="unlock" class="panel center hidden">
+<h2>Bem-vindo de volta</h2><p class="muted">Digite sua senha mestra para acessar seus logins.</p>
+<div class="field"><label for="masterLogin">Senha mestra</label><input id="masterLogin" type="password" autocomplete="current-password" placeholder="Sua senha mestra"></div>
+<button id="unlockBtn" style="width:100%">Desbloquear cofre</button>
+<p id="unlockError" class="muted" role="alert"></p>
+</section>
+
+<main id="app" class="hidden">
+<div class="row" style="justify-content:space-between"><div><h2 style="margin:0 0 5px">Seus acessos</h2><p class="muted" style="margin:0">Organize contas, serviços e informações de login.</p></div><button id="addBtn">＋ Novo acesso</button></div>
+<div class="toolbar"><input id="search" class="search" placeholder="Buscar por serviço, usuário ou categoria…"><div class="stats"><div class="stat">Acessos<strong id="count">0</strong></div></div></div>
+<div id="entries" class="grid"></div>
+<div class="toolbar"><button class="secondary" id="exportBtn">Exportar backup criptografado</button><button class="secondary" id="importBtn">Importar backup</button><button class="danger" id="lockBtn">Bloquear cofre</button><input type="file" id="importFile" accept=".json,application/json" class="hidden"></div>
+<p class="muted" style="font-size:12px">O backup exportado continua criptografado. Guarde-o em um local seguro.</p>
+</main>
+<p class="foot">Vault · Seus dados ficam neste navegador, protegidos por criptografia.</p>
+</div>
+
+<div id="modalBack" class="modalback hidden"><div class="modal">
+<h2 id="modalTitle">Novo acesso</h2>
+<form id="entryForm">
+<input id="entryId" type="hidden">
+<div class="field"><label for="service">Nome do serviço *</label><input id="service" required maxlength="70" placeholder="Ex.: E-mail, streaming, banco…"></div>
+<div class="field"><label for="category">Categoria</label><input id="category" maxlength="40" placeholder="Ex.: Pessoal, trabalho, entretenimento"></div>
+<div class="field"><label for="username">Usuário / e-mail</label><input id="username" autocomplete="off" maxlength="160"></div>
+<div class="field"><label for="password">Senha</label><div class="row"><input id="password" type="password" autocomplete="new-password" maxlength="500"><button type="button" class="secondary" id="togglePassword" style="flex:0 0 auto">Mostrar</button></div></div>
+<div class="field"><label for="url">Site (opcional)</label><input id="url" type="url" placeholder="https://…"></div>
+<div class="field"><label for="notes">Observações (opcional)</label><textarea id="notes" maxlength="1000" placeholder="Informações adicionais"></textarea></div>
+<div class="row"><button type="submit">Salvar acesso</button><button type="button" class="secondary" id="cancelBtn">Cancelar</button></div>
+</form></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const STORE='vault_encrypted_v1';
+let key=null, records=[], salt=null, idleTimer=null;
+const enc=new TextEncoder(), dec=new TextDecoder();
+function show(id){['setup','unlock','app'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
+function b64(bytes){return btoa(String.fromCharCode(...new Uint8Array(bytes)))}
+function un64(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+async function derive(pass,s){const material=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:s,iterations:310000,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function encryptData(data,k){const iv=crypto.getRandomValues(new Uint8Array(12));const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,enc.encode(JSON.stringify(data)));return {iv:b64(iv),data:b64(cipher)}}
+async function decryptData(payload,k){const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:un64(payload.iv)},k,un64(payload.data));return JSON.parse(dec.decode(plain))}
+async function persist(){const encrypted=await encryptData(records,key);localStorage.setItem(STORE,JSON.stringify({version:1,salt:b64(salt),...encrypted}));}
+function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(lock,5*60*1000)}
+function lock(){key=null;records=[];clearTimeout(idleTimer);$('masterLogin').value='';show('unlock')}
+['click','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{if(key)resetIdle()},{passive:true}));
+async function init(){if(!crypto.subtle){alert('Este navegador não oferece criptografia segura. Abra o arquivo em um navegador atualizado usando localhost ou HTTPS.');return}show(localStorage.getItem(STORE)?'unlock':'setup')}
+$('createBtn').onclick=async()=>{const a=$('master1').value,b=$('master2').value;if(a.length<12){alert('Use uma senha mestra com pelo menos 12 caracteres.');return}if(a!==b){alert('As senhas não coincidem.');return}salt=crypto.getRandomValues(new Uint8Array(16));key=await derive(a,salt);records=[];await persist();$('master1').value=$('master2').value='';show('app');render();resetIdle()};
+$('unlockBtn').onclick=async()=>{try{const saved=JSON.parse(localStorage.getItem(STORE));salt=un64(saved.salt);key=await derive($('masterLogin').value,salt);records=await decryptData(saved,key);$('unlockError').textContent='';$('masterLogin').value='';show('app');render();resetIdle()}catch(e){key=null;$('unlockError').textContent='Senha incorreta ou cofre danificado. Tente novamente.'}};
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){const q=$('search').value.toLowerCase();const filtered=records.filter(r=>[r.service,r.category,r.username].join(' ').toLowerCase().includes(q));$('count').textContent=records.length;
+$('entries').innerHTML=filtered.length?filtered.map(r=>`<article class="entry"><div class="entryhead"><div class="entryicon">${safe((r.service||'?').trim().charAt(0).toUpperCase())}</div><div><h3>${safe(r.service)}</h3><small>${safe(r.category||'Sem categoria')}</small></div></div><div class="detail">USUÁRIO / E-MAIL</div><div class="value"><span>${safe(r.username||'Não informado')}</span><button class="mini" data-copy="${safe(r.id)}" data-field="username">Copiar</button></div><div class="detail">SENHA</div><div class="value"><span>••••••••••••</span><button class="mini" data-reveal="${safe(r.id)}">Mostrar</button><button class="mini" data-copy="${safe(r.id)}" data-field="password">Copiar</button></div>${r.url?`<div class="detail"><a style="color:#8dbdff" href="${safe(r.url)}" target="_blank" rel="noopener noreferrer">Abrir site ↗</a></div>`:''}${r.notes?`<div class="detail">${safe(r.notes)}</div>`:''}<div class="actions"><button class="secondary" data-edit="${safe(r.id)}">Editar</button><button class="danger" data-delete="${safe(r.id)}">Excluir</button></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1">Nenhum acesso encontrado.<br>Adicione seu primeiro login em “Novo acesso”.</div>'}
+$('entries').addEventListener('click',async e=>{const t=e.target;if(t.dataset.copy){const r=records.find(x=>x.id===t.dataset.copy);await navigator.clipboard.writeText(r?.[t.dataset.field]||'');const old=t.textContent;t.textContent='Copiado';setTimeout(()=>t.textContent=old,1200)}if(t.dataset.reveal){const r=records.find(x=>x.id===t.dataset.reveal);alert('Senha: '+(r?.password||''))}if(t.dataset.edit)openForm(records.find(x=>x.id===t.dataset.edit));if(t.dataset.delete){if(confirm('Excluir este acesso permanentemente?')){records=records.filter(x=>x.id!==t.dataset.delete);await persist();render()}}});
+function openForm(r=null){$('entryForm').reset();$('entryId').value=r?.id||'';$('service').value=r?.service||'';$('category').value=r?.category||'';$('username').value=r?.username||'';$('password').value=r?.password||'';$('url').value=r?.url||'';$('notes').value=r?.notes||'';$('modalTitle').textContent=r?'Editar acesso':'Novo acesso';$('modalBack').classList.remove('hidden')}
+$('addBtn').onclick=()=>openForm();$('cancelBtn').onclick=()=>$('modalBack').classList.add('hidden');$('modalBack').onclick=e=>{if(e.target===$('modalBack'))$('modalBack').classList.add('hidden')};
+$('entryForm').onsubmit=async e=>{e.preventDefault();const id=$('entryId').value||crypto.randomUUID();const item={id,service:$('service').value.trim(),category:$('category').value.trim(),username:$('username').value.trim(),password:$('password').value,url:$('url').value.trim(),notes:$('notes').value.trim()};const i=records.findIndex(x=>x.id===id);if(i>=0)records[i]=item;else records.unshift(item);await persist();$('modalBack').classList.add('hidden');render()};
+$('togglePassword').onclick=()=>{const p=$('password');p.type=p.type==='password'?'text':'password';$('togglePassword').textContent=p.type==='password'?'Mostrar':'Ocultar'};
+$('search').oninput=render;$('lockBtn').onclick=lock;
+$('exportBtn').onclick=()=>{const blob=new Blob([localStorage.getItem(STORE)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='vault-backup-criptografado.json';a.click();URL.revokeObjectURL(a.href)};
+$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(data.version!==1||!data.salt||!data.iv||!data.data)throw Error();if(!confirm('Importar substituirá todos os acessos atuais. Continuar?'))return;localStorage.setItem(STORE,JSON.stringify(data));lock();alert('Backup importado. Desbloqueie usando a senha mestra do backup.')}catch{alert('Arquivo de backup inválido.')}e.target.value=''};
+init();
+</script>
+</body></html>
